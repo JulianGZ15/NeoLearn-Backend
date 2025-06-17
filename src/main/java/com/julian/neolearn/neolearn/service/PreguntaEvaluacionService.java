@@ -9,6 +9,7 @@ public interface PreguntaEvaluacionService {
 
      Optional<PreguntaEvaluacionDTO> buscarPreguntaEvaluacionPorId(Long cvePreguntaEvaluacion);
      PreguntaEvaluacionDTO guardarPreguntaEvaluacion(PreguntaEvaluacionDTO preguntaEvaluacion, Long cveEvaluacion);
+     PreguntaEvaluacionDTO actualizarPregunta(PreguntaEvaluacionDTO preguntaEvaluacion);
      void borrarPreguntaEvaluacionPorId(Long cvePreguntaEvaluacion);
      List<PreguntaEvaluacionDTO> listarPreguntasPorEvaluacion(Long cveEvaluacion);
 }

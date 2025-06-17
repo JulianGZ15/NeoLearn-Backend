@@ -14,4 +14,5 @@ public class ClaseEnVivoDTO {
     private Integer duracion_minutos;
     private String url_transmision;
     private Boolean grabacion_disponible;
+    private String estadoClase;
 }

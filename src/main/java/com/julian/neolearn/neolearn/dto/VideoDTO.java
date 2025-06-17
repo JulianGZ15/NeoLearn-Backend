@@ -10,4 +10,6 @@ public class VideoDTO {
     private String url;
     private Integer duracion_minutos;
     private Integer orden;
+    private String portada;
 }
+

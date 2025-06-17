@@ -11,7 +11,7 @@ public interface CertificadoService {
     List<CertificadoDTO> listarCertificados();
     CertificadoDTO guardarCertificado(CertificadoDTO certificado);
     void borrarCertificadoPorId(Long cveCertificado);
-
+    CertificadoDTO generarCertificado(Long cveInscripcion) throws Exception;
 
     
 }

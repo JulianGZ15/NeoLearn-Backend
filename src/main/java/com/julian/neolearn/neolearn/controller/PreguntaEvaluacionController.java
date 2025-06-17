@@ -50,8 +50,8 @@ public class PreguntaEvaluacionController {
 
 
     @PutMapping("/{cvePreguntaEvaluacion}")
-    public ResponseEntity<PreguntaEvaluacionDTO> actualizarPregunta(@PathVariable Long cvePreguntaEvaluacion, @RequestBody PreguntaEvaluacionDTO dto) {
-        PreguntaEvaluacionDTO pregunta = preguntaEvaluacionService.guardarPreguntaEvaluacion(dto, cvePreguntaEvaluacion);
+    public ResponseEntity<PreguntaEvaluacionDTO> actualizarPregunta( @RequestBody PreguntaEvaluacionDTO dto) {
+        PreguntaEvaluacionDTO pregunta = preguntaEvaluacionService.actualizarPregunta(dto);
         return ResponseEntity.ok(pregunta);
     }
 

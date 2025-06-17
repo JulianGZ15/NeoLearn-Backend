@@ -8,12 +8,12 @@ import com.julian.neolearn.neolearn.dto.SuscripcionMensualDTO;
 import com.julian.neolearn.neolearn.dto.UsuarioDTO;
 
 public interface EstadisticasEmpresaService {
-    Map<String, Object> obtenerResumenEstadisticas(Long cveEmpresa);
-    Long contarCursosPorEmpresa(Long cveEmpresa);
-    Double calcularGananciasMesActual(Long cveEmpresa);
-    Long contarTotalSuscripciones(Long cveEmpresa);
-    Long contarEstudiantesEmpresa(Long cveEmpresa);
-    List<UsuarioDTO> encontrarUltimosCincoSuscriptores(Long cveEmpresa);
-    List<CursoVendidoDTO> encontrarCursosMasVendidos(Long cveEmpresa);
-    List<SuscripcionMensualDTO> obtenerSuscripcionesPorMes(Long cveEmpresa);
+    Map<String, Object> obtenerResumenEstadisticas();
+    Long contarCursosPorEmpresa();
+    Double calcularGananciasMesActual();
+    Long contarTotalSuscripciones();
+    Long contarEstudiantesEmpresa( );
+    List<UsuarioDTO> encontrarUltimosCincoSuscriptores( );
+    List<CursoVendidoDTO> encontrarCursosMasVendidos( );
+    List<SuscripcionMensualDTO> obtenerSuscripcionesPorMes( );
 }

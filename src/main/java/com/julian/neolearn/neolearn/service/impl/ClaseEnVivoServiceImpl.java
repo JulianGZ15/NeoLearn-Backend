@@ -26,12 +26,16 @@ public class ClaseEnVivoServiceImpl implements ClaseEnVivoService{
 
         @Override
     public Optional<ClaseEnVivoDTO> buscarClaseEnVivoPorId(Long cveClaseEnVivo) {
-        return claseEnVivoRepository.findById(cveClaseEnVivo).map(claseEnVivoMapper::toDTO);
+        return claseEnVivoRepository.findById(cveClaseEnVivo)
+                .map(claseEnVivoMapper::toDTO);
     }
 
     @Override
-    public List<ClaseEnVivoDTO> listarClasesEnVivo() {
-        return claseEnVivoRepository.findAll().stream().map(claseEnVivoMapper::toDTO).toList();
+    public List<ClaseEnVivoDTO> listarClasesEnVivo(Long cveCurso) {
+        List<ClaseEnVivo> clases = claseEnVivoRepository.findByCurso_CveCurso(cveCurso);
+        return clases.stream()
+                .map(claseEnVivoMapper::toDTO)
+                .toList();
     }
 
     public ClaseEnVivoDTO guardarClaseEnVivo(ClaseEnVivoDTO dto) {

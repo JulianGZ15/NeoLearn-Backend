@@ -16,5 +16,7 @@ public class CursoDTO {
     private String publico_objetivo;
     private LocalDate fecha_publicacion;
     private String estado;
+    private String portada;
+
 }
 

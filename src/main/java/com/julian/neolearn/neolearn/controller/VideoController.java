@@ -1,8 +1,13 @@
 package com.julian.neolearn.neolearn.controller;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.julian.neolearn.neolearn.dto.VideoDTO;
 import com.julian.neolearn.neolearn.service.VideoService;
@@ -55,4 +62,36 @@ public class VideoController {
         videoService.borrarVideoPorId(cveVideo);
         return ResponseEntity.noContent().build();
      }
+
+         // Subir portada
+    @PostMapping("/{videoId}/portada")
+    public ResponseEntity<VideoDTO> subirPortada(
+            @PathVariable Long videoId,
+            @RequestParam("file") MultipartFile file) {
+        try {
+            VideoDTO VideoDTO = videoService.guardarPortada(videoId, file);
+            return ResponseEntity.ok(VideoDTO);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body(null);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                 .body(null);
+        }
+    }
+
+    // Obtener portada
+    @GetMapping("/portada/{nombreArchivo:.+}")
+    public ResponseEntity<Resource> obtenerPortada(@PathVariable String nombreArchivo) {
+        try {
+            Resource recurso = videoService.obtenerPortada(nombreArchivo);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG) // o detectar tipo MIME dinámicamente si deseas
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + recurso.getFilename() + "\"")
+                    .body(recurso);
+        } catch (MalformedURLException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

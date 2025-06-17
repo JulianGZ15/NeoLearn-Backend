@@ -47,7 +47,7 @@ public class PreguntaServiceImpl implements PreguntaService{
     @Override
     @Transactional
     public PreguntaDTO guardarPregunta(PreguntaDTO dto, Long cveCurso) {
-        if (dto == null || dto.getCvePregunta() == null) {
+        if (dto == null) {
             throw new IllegalArgumentException("La pregunta no puede ser nula");
         }
         String correo = SecurityContextHolder.getContext().getAuthentication().getName();

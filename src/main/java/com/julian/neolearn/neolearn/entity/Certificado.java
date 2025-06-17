@@ -23,7 +23,7 @@ public class Certificado {
     private Inscripcion inscripcion;
 
     @Column(columnDefinition = "TEXT")
-    private String url_pdf;
+    private String nombreArchivo;
 
     private LocalDate fecha_emision;
 }

@@ -33,8 +33,11 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipo;
 
+    private String fotoperfil;
+
     @ManyToMany(mappedBy = "usuarios")
     private List<Empresa> empresas = new ArrayList<>();
+
 
     
     

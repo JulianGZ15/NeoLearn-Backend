@@ -29,7 +29,18 @@ public class TokenInvitacionEmpresa {
     @Column(nullable = false)
     private LocalDateTime fechaExpiracion;
 
+    @Column(nullable = false)
+    private LocalDateTime fechaCreacion;
+
     private boolean usado = false;
 
     // Getters y Setters
+
+    @PrePersist
+    private void prePersist() {
+        if (fechaCreacion == null) {
+            fechaCreacion = LocalDateTime.now();
+        }
+    }
+
 }

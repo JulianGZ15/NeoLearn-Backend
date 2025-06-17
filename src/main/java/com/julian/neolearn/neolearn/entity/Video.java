@@ -29,4 +29,6 @@ public class Video {
     private Integer duracion_minutos;
 
     private Integer orden;
+
+    private String portada;
 }

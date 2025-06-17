@@ -9,11 +9,12 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "PreguntaEvaluacion")
+@Table(name = "preguntaevaluacion")
 public class PreguntaEvaluacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cve_preguntaEvaluacion")
     private Long cvePreguntaEvaluacion;
 
     @ManyToOne

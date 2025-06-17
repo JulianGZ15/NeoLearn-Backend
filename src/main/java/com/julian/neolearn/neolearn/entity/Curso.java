@@ -33,10 +33,13 @@ public class Curso {
 
     private Boolean es_gratis;
 
+
     @Column(columnDefinition = "TEXT")
     private String publico_objetivo;
 
     private LocalDate fecha_publicacion;
+
+    private String portada;
 
     @Enumerated(EnumType.STRING)
     private EstadoCurso estado;

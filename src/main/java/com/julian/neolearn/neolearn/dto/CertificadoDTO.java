@@ -7,6 +7,6 @@ import lombok.Data;
 public class CertificadoDTO {
     private Long cve_certificado;
     private Long cve_inscripcion;
-    private String url_pdf;
+    private String nombreArchivo;
     private LocalDate fecha_emision;
 }

@@ -1,10 +1,19 @@
 package com.julian.neolearn.neolearn.service.impl;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.julian.neolearn.neolearn.dto.VideoDTO;
 import com.julian.neolearn.neolearn.entity.Curso;
@@ -68,4 +77,34 @@ public class VideoServiceImpl implements VideoService {
 
         videoRepository.delete(video);
     }
+
+     @Transactional
+    @Override
+    public VideoDTO guardarPortada(Long videoId, MultipartFile file) throws IOException {
+        Video video = videoRepository.findById(videoId)
+                .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+
+        String nombreOriginal = file.getOriginalFilename();
+        String extension = nombreOriginal.substring(nombreOriginal.lastIndexOf('.'));
+
+        // Asegúrate de limpiar caracteres problemáticos si es necesario
+        String nombreArchivo = "Video_" + videoId + "_" + video.getTitulo().replaceAll("[^a-zA-Z0-9]", "_") + extension;
+
+        Path ruta = Paths.get("uploads/video").resolve(nombreArchivo);
+        Files.createDirectories(ruta.getParent());
+        Files.copy(file.getInputStream(), ruta, StandardCopyOption.REPLACE_EXISTING);
+
+        video.setPortada(nombreArchivo);
+        videoRepository.save(video);
+
+        return videoMapper.toDTO(video);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Resource obtenerPortada(String nombreArchivo) throws MalformedURLException {
+        Path ruta = Paths.get("uploads/video").resolve(nombreArchivo).normalize();
+        return new UrlResource(ruta.toUri());
+    }
+
 }

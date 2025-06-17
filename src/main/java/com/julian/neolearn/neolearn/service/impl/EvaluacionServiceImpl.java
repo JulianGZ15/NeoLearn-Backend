@@ -42,7 +42,7 @@ public class EvaluacionServiceImpl implements EvaluacionService {
     @Override
     @Transactional
     public EvaluacionDTO guardarEvaluacion(EvaluacionDTO dto, Long cveCurso) {
-        if (dto == null || dto.getCveEvaluacion() == null) {
+        if (dto == null ) {
             throw new IllegalArgumentException("La evaluación no puede ser nula o no tener ID");
         }
         Curso curso = cursoRepository.findById(cveCurso)

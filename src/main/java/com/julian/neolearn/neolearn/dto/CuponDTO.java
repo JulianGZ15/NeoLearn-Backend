@@ -6,8 +6,8 @@ import java.time.LocalDate;
 
 @Data
 public class CuponDTO {
-    private Long cve_cupon;
-    private Long cve_curso;
+    private Long cveCupon;
+    private Long cveCurso;
     private String codigo;
     private BigDecimal descuento_porcentaje;
     private BigDecimal descuento_fijo;

@@ -12,5 +12,6 @@ public class UsuarioDTO {
     private String correo;
     private String tipo;
     private LocalDate fecha_registro;
+    private String fotoperfil;
 }
 

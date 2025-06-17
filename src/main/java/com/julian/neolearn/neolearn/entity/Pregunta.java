@@ -30,4 +30,11 @@ public class Pregunta {
     private String contenido;
 
     private LocalDateTime fecha;
+
+    @PrePersist
+    private void prePersist() {
+        if (fecha == null) {
+            fecha = LocalDateTime.now();
+        }
+    }
 }

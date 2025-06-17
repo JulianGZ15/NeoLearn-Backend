@@ -43,7 +43,7 @@ public class PreguntaEvaluacionServiceImpl implements PreguntaEvaluacionService 
     @Override
     @Transactional
     public PreguntaEvaluacionDTO guardarPreguntaEvaluacion(PreguntaEvaluacionDTO dto, Long cveEvaluacion) {
-        if (dto == null || dto.getCvePreguntaEvaluacion() == null) {
+        if (dto == null ) {
             throw new IllegalArgumentException("La pregunta de evaluación no puede ser nula o no tener ID");
         }
 
@@ -54,6 +54,18 @@ public class PreguntaEvaluacionServiceImpl implements PreguntaEvaluacionService 
 
         preguntaEvaluacion = preguntaEvaluacionRepository.save(preguntaEvaluacion);
         return preguntaEvaluacionMapper.toDTO(preguntaEvaluacion);
+    }
+
+    @Override
+    @Transactional
+    public PreguntaEvaluacionDTO actualizarPregunta(PreguntaEvaluacionDTO preguntaEvaluacion) {
+        if (preguntaEvaluacion == null || preguntaEvaluacion.getCvePreguntaEvaluacion() == null) {
+            throw new IllegalArgumentException("La pregunta de evaluación no puede ser nula o no tener ID");
+        }
+
+        PreguntaEvaluacion pregunta = preguntaEvaluacionMapper.toEntity(preguntaEvaluacion);
+        pregunta = preguntaEvaluacionRepository.save(pregunta);
+        return preguntaEvaluacionMapper.toDTO(pregunta);
     }
 
     @Override
