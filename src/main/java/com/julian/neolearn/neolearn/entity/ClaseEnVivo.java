@@ -11,28 +11,45 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "ClaseEnVivo")
+@Table(name = "clase_en_vivo")
 public class ClaseEnVivo {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cve_claseEnVivo;
+    @Column(name = "cve_claseEnVivo")
+    private Long cveClaseEnVivo;
 
-    @ManyToOne
-    @JoinColumn(name = "cve_curso")
-    private Curso curso;
-
+    @Column(nullable = false)
     private String titulo;
 
-    @Column(columnDefinition = "TEXT")
     private String descripcion;
 
-    private LocalDateTime fecha_programada;
+    @Column(nullable = false)
+    private LocalDateTime fechaProgramada;
 
-    private Integer duracion_minutos;
+    private LocalDateTime fechaInicio;
+    private LocalDateTime fechaFin;
 
-    @Column(columnDefinition = "TEXT")
-    private String url_transmision;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cve_salaEnVivo")
+    private SalaEnVivo salaEnVivo;
 
-    private Boolean grabacion_disponible;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cve_usuario")
+    private Usuario instructor;
+
+    @Enumerated(EnumType.STRING)
+    private EstadoClase estado = EstadoClase.PROGRAMADA;
+
+    private Boolean finalizada = false;
+
+    private Integer duracionEstimadaMinutos;
+
+
+    public enum EstadoClase {
+        PROGRAMADA,
+        EN_VIVO,
+        FINALIZADA,
+        CANCELADA
+    }
+
 }

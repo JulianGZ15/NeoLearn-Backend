@@ -5,16 +5,19 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
-import com.julian.neolearn.neolearn.handler.VideoCallHandler;
+import com.julian.neolearn.neolearn.webSocket.WebSocketHandshakeInterceptor;
+import com.julian.neolearn.neolearn.webSocket.WebSocketSignalingHandler;
 
 @Configuration
 @EnableWebSocket
-public class WebSocketConfig implements WebSocketConfigurer{
+public class WebSocketConfig implements WebSocketConfigurer {
 
-  @Override
+    @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new VideoCallHandler(), "/video-call")
-                .setAllowedOrigins("*")
-                .withSockJS();
+        registry.addHandler(new WebSocketSignalingHandler(), "/ws/sala/{codigoSala}")
+                .addInterceptors(new WebSocketHandshakeInterceptor())
+                .setAllowedOrigins("http://localhost:4200", "https://tu-dominio.com") // Más específico para producción
+                ; // Agregar SockJS como fallback
     }
 }
+

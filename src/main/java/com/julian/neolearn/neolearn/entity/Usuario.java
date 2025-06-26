@@ -38,7 +38,8 @@ public class Usuario {
     @ManyToMany(mappedBy = "usuarios")
     private List<Empresa> empresas = new ArrayList<>();
 
-
+    @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ClaseEnVivo> clasesEnVivo = new ArrayList<>();
     
     
 
