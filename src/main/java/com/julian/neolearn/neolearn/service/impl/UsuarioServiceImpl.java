@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ import com.julian.neolearn.neolearn.mapper.UsuarioMapper;
 import com.julian.neolearn.neolearn.repository.UsuarioRepository;
 import com.julian.neolearn.neolearn.service.UsuarioService;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -45,19 +47,54 @@ public class UsuarioServiceImpl implements UsuarioService {
                 .map(usuarioMapper::toDto);
     }
 
-    @Transactional
+
+    @Transactional(readOnly = true)
     @Override
-    public UsuarioDTO save(UsuarioDTO usuarioDTO) {
+    public UsuarioDTO findUser(){
+
+        String correo = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Usuario usuario = usuarioRepository.findByCorreo(correo)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                
+                return usuarioMapper.toDto(usuario);
+    }
+
+@Transactional
+@Override
+public UsuarioDTO save(UsuarioDTO usuarioDTO) {
+    if (usuarioDTO.getCveUsuario() != null) {
+        // Es una actualización - cargar entidad existente
+        Usuario existingUsuario = usuarioRepository.findById(usuarioDTO.getCveUsuario())
+            .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
+        
+        // Actualizar campos básicos sin tocar las colecciones
+        existingUsuario.setNombre(usuarioDTO.getNombre());
+        existingUsuario.setCorreo(usuarioDTO.getCorreo());
+        existingUsuario.setTelefono(usuarioDTO.getTelefono());
+        existingUsuario.setDireccionCompleta(usuarioDTO.getDireccionCompleta());
+        existingUsuario.setCalle(usuarioDTO.getCalle());
+        existingUsuario.setColonia(usuarioDTO.getColonia());
+        existingUsuario.setCiudad(usuarioDTO.getCiudad());
+        existingUsuario.setEstado(usuarioDTO.getEstado());
+        existingUsuario.setCodigoPostal(usuarioDTO.getCodigoPostal());
+        existingUsuario.setPais(usuarioDTO.getPais());
+        existingUsuario.setLatitud(usuarioDTO.getLatitud());
+        existingUsuario.setLongitud(usuarioDTO.getLongitud());
+        existingUsuario.setPlaceId(usuarioDTO.getPlaceId());
+        existingUsuario.setFotoperfil(usuarioDTO.getFotoperfil());
+        // ... otros campos que quieras actualizar
+        
+        // NO tocar clasesEnVivo ni otras colecciones con orphanRemoval
+        
+        Usuario saved = usuarioRepository.save(existingUsuario);
+        return usuarioMapper.toDto(saved);
+    } else {
+        // Es una creación - usar mapper normal
         Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
         Usuario saved = usuarioRepository.save(usuario);
         return usuarioMapper.toDto(saved);
     }
+}
 
-    @Transactional
-    @Override
-    public Optional<UsuarioDTO> delete(Long id) {
-        Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
-        usuarioOptional.ifPresent(usuarioRepository::delete);
-        return usuarioOptional.map(usuarioMapper::toDto);
-    }
 }

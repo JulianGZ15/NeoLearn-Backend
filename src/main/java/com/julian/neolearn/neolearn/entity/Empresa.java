@@ -27,6 +27,8 @@ public class Empresa {
         joinColumns = @JoinColumn(name = "cve_empresa"),
         inverseJoinColumns = @JoinColumn(name = "cve_usuario")
     )
+    
+    @Builder.Default
     private List<Usuario> usuarios = new ArrayList<>();
 
     

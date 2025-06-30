@@ -17,7 +17,7 @@ public class Cupon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cve_cupon;
+    private Long cveCupon;
 
     @ManyToOne
     @JoinColumn(name = "cve_curso")

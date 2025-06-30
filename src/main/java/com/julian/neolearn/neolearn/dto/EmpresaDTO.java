@@ -11,9 +11,10 @@ import lombok.Data;
 public class EmpresaDTO {
     private Long cveEmpresa;
     private String nombre;
-    private TipoPlan tipoPlan;
-    private LocalDate fechaInicioPlan;
-    private LocalDate fechaFinPlan;
-    private Boolean estaActivo;
-    private List<Long> cveUsuarios; // Solo IDs
+    private TipoPlan tipo_plan;
+    private LocalDate fecha_inicio_plan;
+    private LocalDate fecha_fin_plan;
+    private Boolean esta_activo;
+    private List<Long> cveUsuarios; // Solo IDs    
+    
 }

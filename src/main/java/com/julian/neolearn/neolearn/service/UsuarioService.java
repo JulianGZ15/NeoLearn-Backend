@@ -10,7 +10,7 @@ public interface UsuarioService {
     List<UsuarioDTO> findAll();
     Optional<UsuarioDTO> findById(Long id);
     Optional<UsuarioDTO> findByCorreo(String correo);
+    UsuarioDTO findUser();
     UsuarioDTO save(UsuarioDTO usuarioDTO);
-    Optional<UsuarioDTO> delete(Long id);
-
+    
 }

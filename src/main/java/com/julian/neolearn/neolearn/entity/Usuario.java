@@ -35,6 +35,27 @@ public class Usuario {
 
     private String fotoperfil;
 
+    private Long telefono;
+
+    // Campos de dirección
+    private String direccionCompleta;
+    private String calle;
+    private String colonia;
+    private String ciudad;
+    private String estado;
+    private String codigoPostal;
+    private String pais;
+    
+    // Coordenadas geográficas
+    private Double latitud;
+    private Double longitud;
+    
+    // Identificadores de Google
+    private String placeId;
+    
+    @Column(columnDefinition = "TEXT")
+    private String googleAddressComponents;
+
     @ManyToMany(mappedBy = "usuarios")
     private List<Empresa> empresas = new ArrayList<>();
 

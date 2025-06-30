@@ -4,7 +4,8 @@ package com.julian.neolearn.neolearn.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,5 +28,16 @@ public class UsuarioController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping
+    public ResponseEntity<UsuarioDTO> obtenerUsuario() {
+        UsuarioDTO usuario = usuarioService.findUser();
+        return ResponseEntity.ok(usuario);
+    }
+
+    @PutMapping
+    public ResponseEntity<UsuarioDTO> actualizarUsuario(@RequestBody UsuarioDTO usuario){
+        usuarioService.save(usuario);
+        return ResponseEntity.ok(usuario);
+    }
 
 }

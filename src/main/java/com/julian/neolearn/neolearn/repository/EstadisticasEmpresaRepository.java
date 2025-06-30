@@ -7,9 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.julian.neolearn.neolearn.dto.CursoVendidoDTO;
-import com.julian.neolearn.neolearn.dto.SuscripcionMensualDTO;
-import com.julian.neolearn.neolearn.dto.UsuarioDTO;
+
 import com.julian.neolearn.neolearn.entity.Usuario;
 
 @Repository
