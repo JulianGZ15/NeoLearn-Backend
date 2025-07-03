@@ -16,7 +16,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(new WebSocketSignalingHandler(), "/ws/sala/{codigoSala}")
                 .addInterceptors(new WebSocketHandshakeInterceptor())
-                .setAllowedOrigins("http://localhost:4200", "https://tu-dominio.com") // Más específico para producción
+                .setAllowedOrigins("http://localhost:4200", "https://qjsfhr3w-4200.use2.devtunnels.ms/") // Más específico para producción
                 ; // Agregar SockJS como fallback
     }
 }

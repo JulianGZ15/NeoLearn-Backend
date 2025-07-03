@@ -1,7 +1,6 @@
 package com.julian.neolearn.neolearn.dto;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import com.julian.neolearn.neolearn.entity.MensajeChat.TipoMensaje;
 

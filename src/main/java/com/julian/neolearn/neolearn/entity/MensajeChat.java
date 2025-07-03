@@ -48,6 +48,8 @@ public class MensajeChat {
     @PrePersist
     public void prePersist() {
         this.timestamp = LocalDateTime.now();
+        this.editado = false;
+        this.tipoMensaje = TipoMensaje.TEXTO;
     }
 
      public enum TipoMensaje {
@@ -56,5 +58,10 @@ public class MensajeChat {
         ARCHIVO,
         EMOJI
     }
+
+        public boolean hasValidId() {
+        return this.cveMensajeChat != null;
+    }
+
    
 }

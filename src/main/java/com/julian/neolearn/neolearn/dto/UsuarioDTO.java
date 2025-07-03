@@ -2,7 +2,6 @@ package com.julian.neolearn.neolearn.dto;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
 import lombok.Data;
 
 @Data

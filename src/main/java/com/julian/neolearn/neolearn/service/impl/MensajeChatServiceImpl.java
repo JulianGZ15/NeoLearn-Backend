@@ -3,10 +3,8 @@ package com.julian.neolearn.neolearn.service.impl;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -40,35 +38,46 @@ public class MensajeChatServiceImpl implements MensajeChatService {
     private final UsuarioRepository usuarioRepository;
     private final MensajeChatMapper mensajeMapper;
 
-    @Override
-    public MensajeChatDTO enviarMensaje(Long claseId, Long usuarioId, EnviarMensajeRequest request) {
-        ClaseEnVivo clase = claseRepository.findById(claseId)
-            .orElseThrow(() -> new EntityNotFoundException("Clase no encontrada"));
-        
-        Usuario usuario = usuarioRepository.findById(usuarioId)
-            .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
+@Override
+public MensajeChatDTO enviarMensaje(Long claseId, Long usuarioId, EnviarMensajeRequest request) {
+    // ✅ VALIDAR parámetros
+    if (claseId == null) {
+        throw new IllegalArgumentException("claseId no puede ser null");
+    }
+    if (usuarioId == null) {
+        throw new IllegalArgumentException("usuarioId no puede ser null");
+    }
+    if (request == null || request.getContenido() == null || request.getContenido().trim().isEmpty()) {
+        throw new IllegalArgumentException("Contenido del mensaje no puede estar vacío");
+    }
 
-        // Validar que la clase esté activa
-        if (clase.getEstado() != EstadoClase.EN_VIVO) {
-            throw new IllegalStateException("Solo se puede chatear en clases activas");
-        }
+    ClaseEnVivo clase = claseRepository.findById(claseId)
+        .orElseThrow(() -> new EntityNotFoundException("Clase no encontrada"));
+    
+    Usuario usuario = usuarioRepository.findById(usuarioId)
+        .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
 
-        // Validar contenido
-        if (request.getContenido() == null || request.getContenido().trim().isEmpty()) {
-            throw new IllegalArgumentException("El contenido del mensaje no puede estar vacío");
-        }
+    // Validar que la clase esté activa
+    if (clase.getEstado() != EstadoClase.EN_VIVO) {
+        throw new IllegalStateException("Solo se puede chatear en clases activas");
+    }
 
-        // Crear mensaje
-        MensajeChat mensaje = new MensajeChat();
-        mensaje.setClaseEnVivo(clase);
-        mensaje.setUsuario(usuario);
-        mensaje.setContenido(request.getContenido().trim());
-        mensaje.setTipoMensaje(request.getTipoMensaje());
-        mensaje.setTimestamp(LocalDateTime.now());
+    // Crear mensaje
+    MensajeChat mensaje = new MensajeChat();
+    mensaje.setClaseEnVivo(clase);
+    mensaje.setUsuario(usuario);
+    mensaje.setContenido(request.getContenido().trim());
+    mensaje.setTipoMensaje(request.getTipoMensaje() != null ? request.getTipoMensaje() : TipoMensaje.TEXTO);
 
+    try {
         MensajeChat mensajeGuardado = mensajeRepository.save(mensaje);
         return mensajeMapper.toDTOWithUser(mensajeGuardado, usuarioId);
+    } catch (Exception e) {
+        System.err.println("Error guardando mensaje: " + e.getMessage());
+        throw new RuntimeException("Error al guardar el mensaje", e);
     }
+}
+
 
     @Override
     @Transactional(readOnly = true)
