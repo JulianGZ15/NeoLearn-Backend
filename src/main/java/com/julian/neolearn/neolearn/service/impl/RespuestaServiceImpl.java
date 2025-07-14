@@ -1,5 +1,6 @@
 package com.julian.neolearn.neolearn.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -66,5 +67,13 @@ public class RespuestaServiceImpl implements RespuestaService {
     public void borrarRespuestaPorId(Long cveRespuesta) {
 
         respuestaRepository.deleteById(cveRespuesta);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<RespuestaDTO> listarRespuestasPorPregunta(Long cvePregunta) {
+        return respuestaRepository.findByPregunta_cvePregunta(cvePregunta).stream()
+                .map(respuestaMapper::toDTO)
+                .toList();
     }
 }

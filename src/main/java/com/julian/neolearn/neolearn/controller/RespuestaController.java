@@ -1,5 +1,7 @@
 package com.julian.neolearn.neolearn.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,6 +48,12 @@ public class RespuestaController {
     public ResponseEntity<Void> eliminarRespuesta(@PathVariable Long cveRespuesta) {
         respuestaService.borrarRespuestaPorId(cveRespuesta);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/pregunta/{cvePregunta}")
+    public ResponseEntity<List<RespuestaDTO>> listarRespuestasPorPregunta(@PathVariable Long cvePregunta) {
+        List<RespuestaDTO> respuestas = respuestaService.listarRespuestasPorPregunta(cvePregunta);
+        return ResponseEntity.ok(respuestas);
     }
 
 }

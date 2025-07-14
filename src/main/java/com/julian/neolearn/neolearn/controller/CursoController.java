@@ -64,8 +64,6 @@ public class CursoController {
         return ResponseEntity.noContent().build();
     }
 
-    
-
     // Subir portada
     @PostMapping("/{cursoId}/portada")
     public ResponseEntity<CursoDTO> subirPortada(
@@ -76,10 +74,10 @@ public class CursoController {
             return ResponseEntity.ok(cursoDTO);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                 .body(null);
+                    .body(null);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                 .body(null);
+                    .body(null);
         }
     }
 
@@ -97,6 +95,16 @@ public class CursoController {
         }
     }
 
+    @GetMapping("/inscritos")
+    public ResponseEntity<List<CursoDTO>> listarCursosInscritosUsuario() {
+        List<CursoDTO> cursos = cursoService.cursosInscritosDelusuario();
+        return ResponseEntity.ok(cursos);
+    }
+
+    @GetMapping("/disponibles")
+    public ResponseEntity<List<CursoDTO>> listarCursosDisponiblesParaCompra() {
+        List<CursoDTO> cursos = cursoService.cursosDisponiblesParaCompraDelUsuario();
+        return ResponseEntity.ok(cursos);
+    }
 
 }
-

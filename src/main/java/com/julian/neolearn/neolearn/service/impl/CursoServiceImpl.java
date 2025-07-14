@@ -126,4 +126,47 @@ public class CursoServiceImpl implements CursoService {
         return new UrlResource(ruta.toUri());
     }
 
-}
+    @Transactional(readOnly = true)
+    @Override
+    public List<CursoDTO> cursosInscritosDelusuario() {
+              String correo = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Usuario usuario = usuarioRepository.findByCorreo(correo)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        Empresa empresa = empresaRepository.findByUsuarios_Correo(correo)
+                .orElseThrow(() -> new RuntimeException("Empresa no encontrada para el usuario"));
+
+
+        Long cveEmpresa = empresa.getCveEmpresa();
+        Long cveUsuario = usuario.getCveUsuario();
+
+        List<Curso> cursos = cursoRepository.findCursosInscritosPorUsuario(cveUsuario, cveEmpresa);
+        return cursos.stream()
+                .map(cursoMapper::toDTO)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<CursoDTO> cursosDisponiblesParaCompraDelUsuario() {
+        String correo = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Usuario usuario = usuarioRepository.findByCorreo(correo)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        Empresa empresa = empresaRepository.findByUsuarios_Correo(correo)
+                .orElseThrow(() -> new RuntimeException("Empresa no encontrada para el usuario"));
+
+
+        Long cveEmpresa = empresa.getCveEmpresa();
+        Long cveUsuario = usuario.getCveUsuario();
+
+        List<Curso> cursos = cursoRepository.findCursosDisponiblesParaCompraPorUsuario(cveUsuario, cveEmpresa);
+
+        return cursos.stream()
+                .map(cursoMapper::toDTO)
+                .toList();
+    }
+    
+    }

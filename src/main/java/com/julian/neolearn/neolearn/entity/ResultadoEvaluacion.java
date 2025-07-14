@@ -2,6 +2,7 @@ package com.julian.neolearn.neolearn.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,6 +27,10 @@ public class ResultadoEvaluacion {
     @ManyToOne
     @JoinColumn(name = "cve_usuario")
     private Usuario usuario;
+
+    @OneToMany(mappedBy = "resultadoEvaluacion", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RespuestaEvaluacion> respuestas;
+
 
     private BigDecimal calificacion;
 

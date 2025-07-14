@@ -1,5 +1,7 @@
 package com.julian.neolearn.neolearn.entity;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,6 +22,10 @@ public class PreguntaEvaluacion {
     @ManyToOne
     @JoinColumn(name = "cve_evaluacion")
     private Evaluacion evaluacion;
+
+    @OneToMany(mappedBy = "preguntaEvaluacion", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RespuestaEvaluacion> respuestas;
+
 
     @Column(columnDefinition = "TEXT")
     private String pregunta;

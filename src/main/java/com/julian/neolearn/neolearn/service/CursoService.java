@@ -18,6 +18,9 @@ public interface CursoService {
     void borrarCursoPorId(Long cveCurso);
     CursoDTO guardarPortada(Long cursoId, MultipartFile file) throws IOException;
     Resource obtenerPortada(String nombreArchivo) throws MalformedURLException;
+    List<CursoDTO> cursosInscritosDelusuario();
+    List<CursoDTO> cursosDisponiblesParaCompraDelUsuario();
+
 
     
 }
