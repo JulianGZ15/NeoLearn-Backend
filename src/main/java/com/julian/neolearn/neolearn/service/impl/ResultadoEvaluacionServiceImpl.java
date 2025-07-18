@@ -2,6 +2,7 @@ package com.julian.neolearn.neolearn.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,15 @@ public class ResultadoEvaluacionServiceImpl implements ResultadoEvaluacionServic
     private final UsuarioRepository usuarioRepository;
     private final EvaluacionRepository evaluacionRepository;
 
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<ResultadoEvaluacionDTO> buscarResultadoEvaluacionPorId(Long cveResultadoEvaluacion){
+        ResultadoEvaluacion resultado = resultadoEvaluacionRepository.findById(cveResultadoEvaluacion)
+                .orElseThrow( () -> new RuntimeException("Resultados no encontrados"));
+        
+        return Optional.of(resultadoEvaluacionMapper.toDTO(resultado));
+    }
+
 
     @Override
     @Transactional(readOnly = true)
@@ -48,8 +58,10 @@ public class ResultadoEvaluacionServiceImpl implements ResultadoEvaluacionServic
 
         Usuario usuario = usuarioRepository.findByCorreo(correo)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        System.out.println("Usuario encontrado: " + usuario.getNombre());
         Evaluacion evaluacion = evaluacionRepository.findById(dto.getCveEvaluacion())
                 .orElseThrow(() -> new RuntimeException("Evaluación no encontrada"));
+        System.out.println("Evaluacion encontrada: " + evaluacion.getTitulo());
 
         ResultadoEvaluacion resultadoEvaluacion = resultadoEvaluacionMapper.toEntity(dto);
         

@@ -1,6 +1,8 @@
 package com.julian.neolearn.neolearn.controller;
 
+import java.lang.foreign.Linker.Option;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +26,11 @@ import lombok.RequiredArgsConstructor;
 public class ResultadoEvaluacionController {
     private final ResultadoEvaluacionService resultadoEvaluacionService;
 
-
+    @GetMapping("/{cveResultadoEvaluacion}")
+        public ResponseEntity<Optional<ResultadoEvaluacionDTO>> buscarResultado(@PathVariable Long cveResultadoEvaluacion) {
+        Optional<ResultadoEvaluacionDTO> resultados = resultadoEvaluacionService.buscarResultadoEvaluacionPorId(cveResultadoEvaluacion);
+        return ResponseEntity.ok(resultados);
+    }
 
     @GetMapping("/evaluacion/{cveEvaluacion}")
     public ResponseEntity<List<ResultadoEvaluacionDTO>> listarResultadosPorEvaluacion(@PathVariable Long cveEvaluacion) {

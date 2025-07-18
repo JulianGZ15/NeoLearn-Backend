@@ -31,10 +31,9 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authRequest ->
                 authRequest
-                    .requestMatchers(HttpMethod.GET).permitAll()
-                    .requestMatchers(HttpMethod.OPTIONS).permitAll()
-                    .requestMatchers("api/auth/**").permitAll()
-                    .requestMatchers("api/invitaciones/registrar").permitAll()
+                .requestMatchers("api/auth/**").permitAll()
+                .requestMatchers("api/invitaciones/registrar").permitAll()
+                .requestMatchers(HttpMethod.OPTIONS).permitAll()
                     .anyRequest().authenticated()
             )
             .sessionManagement(sessionManager ->
